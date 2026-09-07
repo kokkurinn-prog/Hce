@@ -7,6 +7,7 @@ import { requireAdminSession } from "@/lib/auth";
 import {
   sendBookingReceivedEmail,
   sendCancellationEmail,
+  sendEventReminderEmail,
   sendFinalPaymentReminderEmail,
   sendPaymentReminderEmail,
 } from "@/lib/email";
@@ -207,6 +208,24 @@ export async function sendReminderNow(bookingId: string) {
   );
 
   await prisma.booking.update({ where: { id: bookingId }, data: { reminderSentAt: new Date() } });
+  revalidatePath(`/admin/aefingar/${booking.sittingId}`);
+}
+
+export async function sendEventReminderNow(bookingId: string) {
+  await requireAdminSession();
+
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: { id: bookingId },
+    include: { sitting: true },
+  });
+
+  await sendEventReminderEmail(
+    booking.sitting,
+    { id: booking.id, name: booking.name, partySize: booking.partySize, cancelToken: booking.cancelToken },
+    booking.email
+  );
+
+  await prisma.booking.update({ where: { id: bookingId }, data: { eventReminderSentAt: new Date() } });
   revalidatePath(`/admin/aefingar/${booking.sittingId}`);
 }
 

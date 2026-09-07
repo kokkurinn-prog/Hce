@@ -81,6 +81,16 @@ function sittingDetailsHtml(sitting: SittingInfo, booking: BookingInfo) {
     </table>`;
 }
 
+function sittingSummaryHtml(sitting: SittingInfo, booking: BookingInfo) {
+  return `
+    <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+      <tr><td style="padding: 6px 0; color: #6b6558;">Viðburður</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${sitting.title}</td></tr>
+      <tr><td style="padding: 6px 0; color: #6b6558;">Dagsetning</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${formatDateLong(sitting.date)}</td></tr>
+      <tr><td style="padding: 6px 0; color: #6b6558;">Máltíð</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${mealTypeLabel(sitting.mealType)}</td></tr>
+      <tr><td style="padding: 6px 0; color: #6b6558;">Fjöldi gesta</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${booking.partySize}</td></tr>
+    </table>`;
+}
+
 export async function sendBookingReceivedEmail(sitting: SittingInfo, booking: BookingInfo, to: string) {
   const cancelUrl = `${getSiteUrl()}/bokun/${booking.cancelToken}/hafna`;
   const html = wrapEmail(
@@ -152,6 +162,23 @@ export async function sendCancellationEmail(sitting: SittingInfo, booking: Booki
     `
   );
   await sendEmail(to, `Bókun afbókuð — ${sitting.title}`, html);
+}
+
+export async function sendEventReminderEmail(sitting: SittingInfo, booking: BookingInfo, to: string) {
+  const cancelUrl = `${getSiteUrl()}/bokun/${booking.cancelToken}/hafna`;
+  const html = wrapEmail(
+    "Áminning um viðburð",
+    `
+      <p>Sæl/l ${booking.name},</p>
+      <p>Okkur langar að minna þig á að þú átt bókað borð hjá okkur.</p>
+      ${sittingSummaryHtml(sitting, booking)}
+      <p>Við hlökkum til að sjá þig!</p>
+      <p style="margin-top: 24px; font-size: 13px; color: #6b6558;">
+        Þarftu að afbóka? <a href="${cancelUrl}" style="color: #7a4b1f;">Smelltu hér til að afbóka</a>.
+      </p>
+    `
+  );
+  await sendEmail(to, `Áminning — ${sitting.title}`, html);
 }
 
 export async function sendFinalPaymentReminderEmail(

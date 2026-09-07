@@ -2,7 +2,13 @@
 
 import { useState, useTransition } from "react";
 import { updateBookingDetails } from "@/app/actions/admin-bookings";
-import { CancelBookingButton, SendFinalReminderButton, SendReminderButton, TogglePaidButton } from "./booking-actions";
+import {
+  CancelBookingButton,
+  SendEventReminderButton,
+  SendFinalReminderButton,
+  SendReminderButton,
+  TogglePaidButton,
+} from "./booking-actions";
 import type { Booking } from "@/lib/generated/prisma/client";
 
 export function BookingRow({ booking }: { booking: Booking }) {
@@ -43,7 +49,7 @@ export function BookingRow({ booking }: { booking: Booking }) {
   if (editing) {
     return (
       <tr className="bg-cream-muted/40">
-        <td colSpan={9} className="px-5 py-4">
+        <td colSpan={10} className="px-5 py-4">
           <div className="flex flex-wrap items-end gap-3">
             <div>
               <label className="block text-xs text-muted">Nafn</label>
@@ -132,6 +138,13 @@ export function BookingRow({ booking }: { booking: Booking }) {
       <td className="px-5 py-4 text-xs text-muted">
         {booking.status === "CONFIRMED" ? (
           <SendFinalReminderButton bookingId={booking.id} alreadySent={!!booking.finalReminderSentAt} />
+        ) : (
+          "—"
+        )}
+      </td>
+      <td className="px-5 py-4 text-xs text-muted">
+        {booking.status === "CONFIRMED" ? (
+          <SendEventReminderButton bookingId={booking.id} alreadySent={!!booking.eventReminderSentAt} />
         ) : (
           "—"
         )}

@@ -90,6 +90,7 @@ export default async function AdminSittingDetailPage({ params }: PageProps<"/adm
                   <th className="px-5 py-3 font-medium">Greitt</th>
                   <th className="px-5 py-3 font-medium">Áminning</th>
                   <th className="px-5 py-3 font-medium">Lokaáminning</th>
+                  <th className="px-5 py-3 font-medium">Viðburðaráminning</th>
                   <th className="px-5 py-3 font-medium"></th>
                 </tr>
               </thead>

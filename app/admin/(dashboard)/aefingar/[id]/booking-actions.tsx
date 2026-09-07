@@ -1,7 +1,13 @@
 "use client";
 
 import { useTransition } from "react";
-import { adminCancelBooking, sendFinalReminderNow, sendReminderNow, toggleBookingPaid } from "@/app/actions/admin-bookings";
+import {
+  adminCancelBooking,
+  sendEventReminderNow,
+  sendFinalReminderNow,
+  sendReminderNow,
+  toggleBookingPaid,
+} from "@/app/actions/admin-bookings";
 
 export function TogglePaidButton({ bookingId, isPaid }: { bookingId: string; isPaid: boolean }) {
   const [isPending, startTransition] = useTransition();
@@ -41,6 +47,20 @@ export function SendFinalReminderButton({ bookingId, alreadySent }: { bookingId:
       className="text-gold-dark hover:underline disabled:opacity-50"
     >
       {isPending ? "Sendi..." : alreadySent ? "Senda aftur" : "Senda lokaáminningu"}
+    </button>
+  );
+}
+
+export function SendEventReminderButton({ bookingId, alreadySent }: { bookingId: string; alreadySent?: boolean }) {
+  const [isPending, startTransition] = useTransition();
+  return (
+    <button
+      type="button"
+      disabled={isPending}
+      onClick={() => startTransition(() => sendEventReminderNow(bookingId))}
+      className="text-gold-dark hover:underline disabled:opacity-50"
+    >
+      {isPending ? "Sendi..." : alreadySent ? "Senda aftur" : "Senda viðburðaráminningu"}
     </button>
   );
 }

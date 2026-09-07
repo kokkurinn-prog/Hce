@@ -60,6 +60,7 @@ model Booking {
   cancelToken         String        @unique @default(cuid())
   reminderSentAt      DateTime?
   finalReminderSentAt DateTime? // seinni áminning ef ógreitt nálægt viðburði
+  eventReminderSentAt DateTime? // einföld áminning um viðburðinn sjálfan, ekki greiðslu
   ip                  String? // notað til að takmarka fjölda bókana frá sömu nettengingu (spam-vörn)
   marketingOptIn      Boolean       @default(false) // gestur hakaði við "já takk" fyrir fréttabréf
   createdAt           DateTime      @default(now())
