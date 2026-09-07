@@ -17,7 +17,7 @@ export function TogglePaidButton({ bookingId, isPaid }: { bookingId: string; isP
   );
 }
 
-export function SendReminderButton({ bookingId }: { bookingId: string }) {
+export function SendReminderButton({ bookingId, alreadySent }: { bookingId: string; alreadySent?: boolean }) {
   const [isPending, startTransition] = useTransition();
   return (
     <button
@@ -26,12 +26,12 @@ export function SendReminderButton({ bookingId }: { bookingId: string }) {
       onClick={() => startTransition(() => sendReminderNow(bookingId))}
       className="text-gold-dark hover:underline disabled:opacity-50"
     >
-      Senda áminningu
+      {isPending ? "Sendi..." : alreadySent ? "Senda aftur" : "Senda áminningu"}
     </button>
   );
 }
 
-export function SendFinalReminderButton({ bookingId }: { bookingId: string }) {
+export function SendFinalReminderButton({ bookingId, alreadySent }: { bookingId: string; alreadySent?: boolean }) {
   const [isPending, startTransition] = useTransition();
   return (
     <button
@@ -40,7 +40,7 @@ export function SendFinalReminderButton({ bookingId }: { bookingId: string }) {
       onClick={() => startTransition(() => sendFinalReminderNow(bookingId))}
       className="text-gold-dark hover:underline disabled:opacity-50"
     >
-      Senda lokaáminningu
+      {isPending ? "Sendi..." : alreadySent ? "Senda aftur" : "Senda lokaáminningu"}
     </button>
   );
 }

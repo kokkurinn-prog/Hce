@@ -123,14 +123,18 @@ export function BookingRow({ booking }: { booking: Booking }) {
         )}
       </td>
       <td className="px-5 py-4 text-xs text-muted">
-        {booking.reminderSentAt ? "Send" : booking.status === "CONFIRMED" ? <SendReminderButton bookingId={booking.id} /> : "—"}
+        {booking.status === "CONFIRMED" ? (
+          <SendReminderButton bookingId={booking.id} alreadySent={!!booking.reminderSentAt} />
+        ) : (
+          "—"
+        )}
       </td>
       <td className="px-5 py-4 text-xs text-muted">
-        {booking.finalReminderSentAt
-          ? "Send"
-          : booking.status === "CONFIRMED" && !booking.isPaid && booking.reminderSentAt
-          ? <SendFinalReminderButton bookingId={booking.id} />
-          : "—"}
+        {booking.status === "CONFIRMED" ? (
+          <SendFinalReminderButton bookingId={booking.id} alreadySent={!!booking.finalReminderSentAt} />
+        ) : (
+          "—"
+        )}
       </td>
       <td className="px-5 py-4 text-right text-xs">
         <div className="flex items-center justify-end gap-3">
