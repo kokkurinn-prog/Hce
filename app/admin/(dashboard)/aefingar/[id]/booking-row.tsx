@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updateBookingDetails } from "@/app/actions/admin-bookings";
+import { cardPaymentStatusLabel } from "@/lib/format";
 import {
   CancelBookingButton,
   SendEventReminderButton,
@@ -123,7 +124,14 @@ export function BookingRow({ booking }: { booking: Booking }) {
       </td>
       <td className="px-5 py-4">
         {booking.status === "CONFIRMED" ? (
-          <TogglePaidButton bookingId={booking.id} isPaid={booking.isPaid} />
+          <div className="flex items-center gap-2">
+            <TogglePaidButton bookingId={booking.id} isPaid={booking.isPaid} />
+            {cardPaymentStatusLabel(booking.cardPaymentStatus) && (
+              <span className="text-[10px] uppercase tracking-wide text-muted">
+                ({cardPaymentStatusLabel(booking.cardPaymentStatus)})
+              </span>
+            )}
+          </div>
         ) : (
           <span className="text-muted">—</span>
         )}

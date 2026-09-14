@@ -20,3 +20,16 @@ export function formatDateShort(date: Date) {
 export function mealTypeLabel(mealType: "LUNCH" | "DINNER") {
   return mealType === "LUNCH" ? "Hádegisverður" : "Kvöldverður";
 }
+
+export function cardPaymentStatusLabel(status: "NONE" | "PENDING" | "PAID" | "FAILED") {
+  switch (status) {
+    case "PENDING":
+      return "kort: beðið";
+    case "PAID":
+      return "kort: greitt";
+    case "FAILED":
+      return "kort: mistókst";
+    default:
+      return null;
+  }
+}

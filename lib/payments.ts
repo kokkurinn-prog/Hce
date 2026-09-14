@@ -15,6 +15,20 @@ export function getCardPaymentUrl(cancelToken: string): string | null {
   return `${getSiteUrl()}/greida/${cancelToken}`;
 }
 
+/**
+ * Slóðir sem gestur er sendur á eftir að hafa lokið (eða hætt við) greiðslu
+ * hjá Teya. Þessar síður eru þegar tilbúnar — þegar `createCheckoutSession`
+ * er útfært er þeim einfaldlega skilað inn sem return/cancel-slóðir í
+ * beiðninni til Teya.
+ */
+export function getReturnUrls(cancelToken: string) {
+  const base = getSiteUrl();
+  return {
+    successUrl: `${base}/greida/${cancelToken}/tokst`,
+    cancelUrl: `${base}/greida/${cancelToken}/hafnad`,
+  };
+}
+
 export type CheckoutSessionInput = {
   bookingId: string;
   cancelToken: string;
