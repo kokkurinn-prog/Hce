@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { formatDateLong, formatKronur, mealTypeLabel } from "@/lib/format";
+import { getCardPaymentUrl } from "@/lib/payments";
 
 type SittingInfo = {
   date: Date;
@@ -91,6 +92,17 @@ function sittingSummaryHtml(sitting: SittingInfo, booking: BookingInfo) {
     </table>`;
 }
 
+function cardPaymentButtonHtml(cancelToken: string) {
+  const url = getCardPaymentUrl(cancelToken);
+  if (!url) return "";
+  return `
+    <p style="text-align: center; margin: 20px 0;">
+      <a href="${url}" style="display: inline-block; background: #14110f; color: #f4ead9; padding: 12px 28px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 14px;">
+        Greiða með korti
+      </a>
+    </p>`;
+}
+
 export async function sendBookingReceivedEmail(sitting: SittingInfo, booking: BookingInfo, to: string) {
   const cancelUrl = `${getSiteUrl()}/bokun/${booking.cancelToken}/hafna`;
   const html = wrapEmail(
@@ -142,6 +154,7 @@ export async function sendPaymentReminderEmail(
       <p>Viðburðurinn þinn er eftir viku — hér er staðfesting bókunarinnar og greiðsluupplýsingar.</p>
       ${sittingDetailsHtml(sitting, booking)}
       ${bankHtml}
+      ${cardPaymentButtonHtml(booking.cancelToken)}
       <p>${instructions}</p>
       <p style="margin-top: 24px; font-size: 13px; color: #6b6558;">
         Þarftu að afbóka? <a href="${cancelUrl}" style="color: #7a4b1f;">Smelltu hér til að afbóka</a>.
@@ -205,6 +218,7 @@ export async function sendFinalPaymentReminderEmail(
       <p>Viðburðurinn þinn er eftir aðeins tvo daga og við sjáum ekki enn að greiðsla hafi borist.</p>
       ${sittingDetailsHtml(sitting, booking)}
       ${bankHtml}
+      ${cardPaymentButtonHtml(booking.cancelToken)}
       <p>Vinsamlegast gakktu frá greiðslu sem fyrst svo bókunin haldist.</p>
       <p style="margin-top: 24px; font-size: 13px; color: #6b6558;">
         Þarftu að afbóka? <a href="${cancelUrl}" style="color: #7a4b1f;">Smelltu hér til að afbóka</a>.

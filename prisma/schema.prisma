@@ -25,6 +25,16 @@ enum BookingStatus {
   CANCELLED
 }
 
+/// Staða á hýstri kortagreiðslu hjá greiðslugátt (Teya/Borgun). NONE þangað
+/// til gestur reynir að greiða — þá PENDING, svo PAID eða FAILED þegar
+/// staðfesting berst frá gáttinni (vefkrókur).
+enum CardPaymentStatus {
+  NONE
+  PENDING
+  PAID
+  FAILED
+}
+
 /// Ein æfing (hádegis- eða kvöldverður) sem hægt er að bóka sæti á.
 model Sitting {
   id               String        @id @default(cuid())
@@ -47,24 +57,26 @@ model Sitting {
 
 /// Bókun eins gests/hóps á tiltekinni æfingu.
 model Booking {
-  id                  String        @id @default(cuid())
+  id                  String            @id @default(cuid())
   sittingId           String
-  sitting             Sitting       @relation(fields: [sittingId], references: [id], onDelete: Cascade)
+  sitting             Sitting           @relation(fields: [sittingId], references: [id], onDelete: Cascade)
   name                String
   email               String
   phone               String
   partySize           Int
   notes               String?
-  status              BookingStatus @default(CONFIRMED)
-  isPaid              Boolean       @default(false)
-  cancelToken         String        @unique @default(cuid())
+  status              BookingStatus     @default(CONFIRMED)
+  isPaid              Boolean           @default(false)
+  cancelToken         String            @unique @default(cuid())
   reminderSentAt      DateTime?
   finalReminderSentAt DateTime? // seinni áminning ef ógreitt nálægt viðburði
   eventReminderSentAt DateTime? // einföld áminning um viðburðinn sjálfan, ekki greiðslu
   ip                  String? // notað til að takmarka fjölda bókana frá sömu nettengingu (spam-vörn)
-  marketingOptIn      Boolean       @default(false) // gestur hakaði við "já takk" fyrir fréttabréf
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
+  marketingOptIn      Boolean           @default(false) // gestur hakaði við "já takk" fyrir fréttabréf
+  cardPaymentStatus   CardPaymentStatus @default(NONE)
+  cardPaymentRef      String? // tilvísunarnúmer greiðslunnar hjá greiðslugáttinni
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
 
   @@index([sittingId])
   @@index([email])
