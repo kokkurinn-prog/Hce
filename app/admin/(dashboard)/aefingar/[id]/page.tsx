@@ -7,7 +7,7 @@ import { formatKronur } from "@/lib/format";
 import { availableSeats, getBookedSeats } from "@/lib/sittings";
 import { BookingRow } from "./booking-row";
 import { ManualBookingForm } from "./manual-booking-form";
-import { NotifyWaitlistButton, RemoveWaitlistButton } from "./waitlist-actions";
+import { NotifyWaitlistButton, PromoteWaitlistButton, RemoveWaitlistButton } from "./waitlist-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -131,6 +131,7 @@ export default async function AdminSittingDetailPage({ params }: PageProps<"/adm
                     <td className="px-5 py-4 text-xs text-muted">{entry.notifiedAt ? "Tilkynnt" : "Óskráð"}</td>
                     <td className="px-5 py-4 text-right text-xs">
                       <div className="flex items-center justify-end gap-3">
+                        <PromoteWaitlistButton entryId={entry.id} />
                         <NotifyWaitlistButton entryId={entry.id} />
                         <RemoveWaitlistButton entryId={entry.id} />
                       </div>
