@@ -11,7 +11,7 @@ import {
   sendFinalPaymentReminderEmail,
   sendPaymentReminderEmail,
 } from "@/lib/email";
-import { getSettings, SETTINGS_KEYS } from "@/lib/settings";
+import { getPaymentInstructionsFor, getSettings, SETTINGS_KEYS } from "@/lib/settings";
 
 const manualBookingSchema = z.object({
   name: z.string().trim().min(2, "Nafn þarf að vera a.m.k. 2 stafir").max(120),
@@ -201,7 +201,7 @@ export async function sendReminderNow(bookingId: string) {
     booking.sitting,
     { id: booking.id, name: booking.name, partySize: booking.partySize, cancelToken: booking.cancelToken },
     booking.email,
-    settings[SETTINGS_KEYS.paymentInstructions],
+    getPaymentInstructionsFor(settings, booking.sitting.mealType),
     settings[SETTINGS_KEYS.bankAccount],
     settings[SETTINGS_KEYS.bankAccountHolder],
     settings[SETTINGS_KEYS.bankKennitala]

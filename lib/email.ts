@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import { formatDateLong, formatKronur, mealTypeLabel } from "@/lib/format";
+import { formatDateLong, formatKronur, formatTime, mealTypeLabel } from "@/lib/format";
 import { getCardPaymentUrl } from "@/lib/payments";
 
 type SittingInfo = {
@@ -75,6 +75,7 @@ function sittingDetailsHtml(sitting: SittingInfo, booking: BookingInfo) {
     <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
       <tr><td style="padding: 6px 0; color: #6b6558;">Viðburður</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${sitting.title}</td></tr>
       <tr><td style="padding: 6px 0; color: #6b6558;">Dagsetning</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${formatDateLong(sitting.date)}</td></tr>
+      <tr><td style="padding: 6px 0; color: #6b6558;">Tími</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">kl. ${formatTime(sitting.date)}</td></tr>
       <tr><td style="padding: 6px 0; color: #6b6558;">Máltíð</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${mealTypeLabel(sitting.mealType)}</td></tr>
       <tr><td style="padding: 6px 0; color: #6b6558;">Fjöldi gesta</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${booking.partySize}</td></tr>
       <tr><td style="padding: 6px 0; color: #6b6558;">Verð á mann</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${formatKronur(sitting.pricePerSeat)}</td></tr>
@@ -87,6 +88,7 @@ function sittingSummaryHtml(sitting: SittingInfo, booking: BookingInfo) {
     <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
       <tr><td style="padding: 6px 0; color: #6b6558;">Viðburður</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${sitting.title}</td></tr>
       <tr><td style="padding: 6px 0; color: #6b6558;">Dagsetning</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${formatDateLong(sitting.date)}</td></tr>
+      <tr><td style="padding: 6px 0; color: #6b6558;">Tími</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">kl. ${formatTime(sitting.date)}</td></tr>
       <tr><td style="padding: 6px 0; color: #6b6558;">Máltíð</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${mealTypeLabel(sitting.mealType)}</td></tr>
       <tr><td style="padding: 6px 0; color: #6b6558;">Fjöldi gesta</td><td style="padding: 6px 0; text-align: right; font-weight: 600;">${booking.partySize}</td></tr>
     </table>`;

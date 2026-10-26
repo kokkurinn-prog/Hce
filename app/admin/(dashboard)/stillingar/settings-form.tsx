@@ -70,26 +70,45 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
       </div>
 
       <div>
-        <label htmlFor="paymentInstructions" className="block text-sm font-medium text-ink">
-          Texti í greiðslutölvupósti
-        </label>
+        <label className="block text-sm font-medium text-ink">Texti í greiðslutölvupósti</label>
         <p className="mt-1 text-xs text-muted">
-          Þessi texti fer í hvern greiðslutölvupóst. Þú getur notað{" "}
+          Þessi texti fer í greiðslutölvupóstinn — mismunandi fyrir hádegis-
+          og kvöldverð, enda er fyrirkomulagið oft ólíkt. Þú getur notað{" "}
           <code>{"{fjöldi}"}</code>, <code>{"{verð}"}</code>,{" "}
           <code>{"{samtals}"}</code> og <code>{"{tilvísun}"}</code> í
           textanum — kerfið skiptir þeim sjálfkrafa út fyrir réttar tölur úr
           hverri bókun (t.d. &bdquo;Upphæð {"{verð}"} á mann, samtals{" "}
           {"{samtals}"} fyrir hópinn, merkið greiðsluna með {"{tilvísun}"}
           &ldquo;). Tilvísunin (t.d. HÆ01) er stillt fyrir hverja æfingu fyrir
-          sig undir „Breyta æfingu&ldquo;.
+          sig undir „Breyta æfingu&ldquo;. Dagsetning og klukkan sjálf fylgja
+          sjálfkrafa með í hverjum pósti — ekki þörf á að skrifa það hér.
         </p>
-        <textarea
-          id="paymentInstructions"
-          name="paymentInstructions"
-          rows={4}
-          defaultValue={settings.payment_instructions}
-          className="mt-1.5 w-full rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-gold"
-        />
+
+        <div className="mt-3">
+          <label htmlFor="paymentInstructionsLunch" className="block text-xs font-medium text-muted">
+            Hádegisverður
+          </label>
+          <textarea
+            id="paymentInstructionsLunch"
+            name="paymentInstructionsLunch"
+            rows={4}
+            defaultValue={settings.payment_instructions_lunch}
+            className="mt-1.5 w-full rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-gold"
+          />
+        </div>
+
+        <div className="mt-3">
+          <label htmlFor="paymentInstructionsDinner" className="block text-xs font-medium text-muted">
+            Kvöldverður
+          </label>
+          <textarea
+            id="paymentInstructionsDinner"
+            name="paymentInstructionsDinner"
+            rows={4}
+            defaultValue={settings.payment_instructions_dinner}
+            className="mt-1.5 w-full rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-gold"
+          />
+        </div>
       </div>
 
       <div>

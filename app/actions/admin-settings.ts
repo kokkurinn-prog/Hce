@@ -16,7 +16,8 @@ export async function saveSettings(
     [SETTINGS_KEYS.bankAccount]: String(formData.get("bankAccount") ?? "").trim(),
     [SETTINGS_KEYS.bankAccountHolder]: String(formData.get("bankAccountHolder") ?? "").trim(),
     [SETTINGS_KEYS.bankKennitala]: String(formData.get("bankKennitala") ?? "").trim(),
-    [SETTINGS_KEYS.paymentInstructions]: String(formData.get("paymentInstructions") ?? "").trim(),
+    [SETTINGS_KEYS.paymentInstructionsLunch]: String(formData.get("paymentInstructionsLunch") ?? "").trim(),
+    [SETTINGS_KEYS.paymentInstructionsDinner]: String(formData.get("paymentInstructionsDinner") ?? "").trim(),
     [SETTINGS_KEYS.organizerEmail]: String(formData.get("organizerEmail") ?? "").trim(),
   });
 

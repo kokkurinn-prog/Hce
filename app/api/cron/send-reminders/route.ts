@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { addDays, endOfDay, startOfDay } from "date-fns";
 import { prisma } from "@/lib/prisma";
 import { sendFinalPaymentReminderEmail, sendPaymentReminderEmail } from "@/lib/email";
-import { getSettings, SETTINGS_KEYS } from "@/lib/settings";
+import { getPaymentInstructionsFor, getSettings, SETTINGS_KEYS } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
           sitting,
           { id: booking.id, name: booking.name, partySize: booking.partySize, cancelToken: booking.cancelToken },
           booking.email,
-          settings[SETTINGS_KEYS.paymentInstructions],
+          getPaymentInstructionsFor(settings, sitting.mealType),
           settings[SETTINGS_KEYS.bankAccount],
           settings[SETTINGS_KEYS.bankAccountHolder],
           settings[SETTINGS_KEYS.bankKennitala]

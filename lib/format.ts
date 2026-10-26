@@ -17,6 +17,10 @@ export function formatDateShort(date: Date) {
   return format(date, "d. MMM yyyy", { locale: is });
 }
 
+export function formatTime(date: Date) {
+  return format(date, "HH:mm", { locale: is });
+}
+
 export function mealTypeLabel(mealType: "LUNCH" | "DINNER") {
   return mealType === "LUNCH" ? "Hádegisverður" : "Kvöldverður";
 }
